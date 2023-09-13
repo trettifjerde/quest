@@ -1,0 +1,27 @@
+export const TASKS = [
+    {
+        pic: "assets/cats.jpg",
+        task: "Задание 1",
+        solution: "Ответ"
+    },
+    {
+        pic: "assets/cats.jpg",
+        task: "Задание 2",
+        solution: "Ответ"
+    },
+    {
+        pic: "assets/cats.jpg",
+        task: "Задание 3",
+        solution: "Ответ"
+    },
+    {
+        pic: "assets/cats.jpg",
+        task: "Задание 4",
+        solution: "Ответ"
+    },
+    {
+        pic: "assets/cats.jpg",
+        task: "Задание 5",
+        solution: "Ответ"
+    }
+];
