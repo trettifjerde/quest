@@ -4,4 +4,4 @@ export type Task = {
     solution: string[]
 }
 
-export type AppState = 'start' | 'start-next' | 'current' | 'next' | 'end' | 'reward';
+export type AppState = 'preload' | 'start' | 'start-next' | 'current' | 'next' | 'end' | 'reward';

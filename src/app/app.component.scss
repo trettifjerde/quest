@@ -10,6 +10,8 @@
     width: 100%;
     padding: 5rem 1rem;
     overflow-x: hidden;
+
+    display: flex;
 }
 
 .confetti, .fireworks {
@@ -31,13 +33,14 @@
 }
 
 .content {
+    width: 100%;
     max-width: 400px;
     margin: auto;
     background-color: rgb(245, 245, 245);
     padding: 3rem 1rem 1rem 1rem;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 0 10px 1px $shadow;
+    box-shadow: $shadow;
 
     &> div{
         display: flex;
@@ -60,4 +63,13 @@ form button {
 
 .cont {
     padding: 1.5rem 1rem;
+}
+
+.preload {
+    background-color: transparent;
+    box-shadow: none;
+
+    button {
+        box-shadow: $shadow;
+    }
 }

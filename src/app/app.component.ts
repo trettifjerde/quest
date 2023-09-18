@@ -3,6 +3,10 @@ import { AppState, Task } from './types';
 import { animations } from 'src/animations';
 import { TASKS } from './data';
 
+const CAT = 'assets/cel_cat.jpg';
+const CAKE = 'assets/cake.jpg';
+const MEOW = 'assets/cat.mp3';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,7 +14,7 @@ import { TASKS } from './data';
   animations: [animations]
 })
 export class AppComponent implements OnInit{
-  state : AppState = 'start';
+  state : AppState = 'preload';
   i: number;
   maxQ: number;
   task: Task;
@@ -20,11 +24,43 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     const n = localStorage.getItem('n');
-    if (n === 'complete') {
+
+    if (n === 'complete') 
       this.congratulate();
-    }
     else if (n)
       this.initTasks(+n);
+    else {
+      const image = new Image();
+      image.src = TASKS[0].pic;
+    }
+  }
+
+  loadNextImage() {
+    const n = this.i + 1;
+    if (n < TASKS.length) {
+      const image = new Image();
+      image.src = TASKS[n].pic;
+    }
+    else {
+      const cat = new Image();
+      const cake = new Image();
+      cat.src = CAT;
+      cake.src = CAKE;
+    }
+  }
+
+  getClass() {
+    switch(this.state) {
+      case 'preload':
+        return {preload: true}
+      default: 
+        return {preload: false}
+    }
+  }
+
+  launch() {
+    this.state = 'start';
+    document.querySelector('audio')!.play();
   }
 
   startQuest() {
@@ -36,6 +72,7 @@ export class AppComponent implements OnInit{
     this.task = TASKS[n];
     this.maxQ = TASKS.length;
     this.state = 'current';
+    this.loadNextImage();
   }
 
   checkAnswer() {
@@ -46,14 +83,15 @@ export class AppComponent implements OnInit{
         this.isError = true;
     }
 
-    setNextTask() {
-      this.i++;
-      this.task = TASKS[this.i];
-      this.isError = false;
-      this.answer = '';
-      this.state = 'current';
-      localStorage.setItem('n', this.i.toString());
-    }
+  setNextTask() {
+    this.i++;
+    this.task = TASKS[this.i];
+    this.isError = false;
+    this.answer = '';
+    this.state = 'current';
+    localStorage.setItem('n', this.i.toString());
+    this.loadNextImage();
+  }
 
   clearError() {
     this.isError = false;
@@ -61,6 +99,7 @@ export class AppComponent implements OnInit{
 
   congratulate() {
     this.state = 'end';
+    document.querySelector('audio')?.play();
   }
 
   giveReward() {

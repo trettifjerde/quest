@@ -1,26 +1,24 @@
-import { trigger, state, style, transition, animate, keyframes, sequence, query, animateChild, stagger } from '@angular/animations';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 
 const CONFETTI_DURATION = 3;
-const START_DURATION = 7;
+const START_DURATION = 8;
 //const CONFETTI_DURATION = 1;
 //const START_DURATION = 1;
-const START_DELAY = 1;
 const SLIDE_DURATION = 0.5;
 const FINAL_SLIDE = 9;
 
 const confettiKeyframes = keyframes([
-    style({display: 'block', opacity: 0, offset: 0}),
+    style({visibility: 'visible', opacity: 0, offset: 0}),
     style({opacity: 1, offset: 0.3}),
     style({opacity: 1, offset: 0.7}),
     style({opacity: 0, offset: 0.99}),
-    style({display: 'none', offset: 1})
+    style({visibility: 'hidden', offset: 1})
 ]);
 const fireworksKeyframes = keyframes([
-    style({display: 'block', opacity: 0, offset: 0}),
+    style({visibility: 'visible', opacity: 0, offset: 0}),
     style({opacity: 1, offset: 0.1}),
     style({opacity: 1, offset: 0.9}),
-    style({opacity: 0, offset: 0.99}),
-    style({display: 'none', offset: 1})
+    style({opacity: 0, visibility: 'hidden', offset: 1}),
 ]);
 
 const slideFromRight = keyframes([
@@ -31,8 +29,7 @@ const slideFromRight = keyframes([
 
 export const animations = [
     trigger('taskState', [
-        state('void', style({opacity: 0})),
-        transition('void => start', animate(`${START_DURATION}s ${START_DELAY}s`, keyframes([
+        transition('preload => start', animate(`${START_DURATION}s`, keyframes([
             style({opacity: 0, transform: 'scale(0)', offset: 0}),
             style({opacity: 1, transform: 'scale(1.2)', offset: 0.05}),
             style({transform: 'scale(0.9)', offset: 0.07}),
@@ -100,12 +97,12 @@ export const animations = [
         ]))),
     ]),
     trigger('confetti', [
-        state('*', style({display: 'none'})),
-        transition('void => start', animate(`${CONFETTI_DURATION}s ${START_DURATION + START_DELAY}s`, confettiKeyframes)),
+        state('*', style({visibility: 'hidden'})),
+        transition('preload => start', animate(`${CONFETTI_DURATION}s ${START_DURATION}s`, confettiKeyframes)),
         transition('current => next', animate(`${CONFETTI_DURATION}s`, confettiKeyframes)),
     ]),
     trigger('fireworks', [
-        state('*', style({display: 'none'})),
+        state('*', style({visibility: 'hidden'})),
         transition('* => end', animate(`${FINAL_SLIDE}s`, fireworksKeyframes))
     ]),
     trigger('input', [
