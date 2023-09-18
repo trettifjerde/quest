@@ -1,9 +1,12 @@
 import { trigger, state, style, transition, animate, keyframes, sequence, query, animateChild, stagger } from '@angular/animations';
 
-const CONFETTI_DURATION = 0.5;
-const START_DURATION = 1;
+const CONFETTI_DURATION = 3;
+const START_DURATION = 7;
+//const CONFETTI_DURATION = 1;
+//const START_DURATION = 1;
 const START_DELAY = 1;
 const SLIDE_DURATION = 0.5;
+const FINAL_SLIDE = 9;
 
 const confettiKeyframes = keyframes([
     style({display: 'block', opacity: 0, offset: 0}),
@@ -12,11 +15,18 @@ const confettiKeyframes = keyframes([
     style({opacity: 0, offset: 0.99}),
     style({display: 'none', offset: 1})
 ]);
+const fireworksKeyframes = keyframes([
+    style({display: 'block', opacity: 0, offset: 0}),
+    style({opacity: 1, offset: 0.1}),
+    style({opacity: 1, offset: 0.9}),
+    style({opacity: 0, offset: 0.99}),
+    style({display: 'none', offset: 1})
+]);
 
 const slideFromRight = keyframes([
-    style({transform: 'translateX(100%)', offset: 0}),
-    style({transform: 'translateX(-20%)', offset: 0.3}),
-    style({transform: 'translateX(0)', offset: 1})
+    style({opacity: 0, transform: 'translateX(100%)', offset: 0}),
+    style({opacity: 0.5, transform: 'translateX(-20%)', offset: 0.5}),
+    style({opacity: 1, transform: 'translateX(0)', offset: 1})
 ]);
 
 export const animations = [
@@ -62,18 +72,41 @@ export const animations = [
             style({opacity: 0, transform: 'scale(0)', offset: 1}),
         ]))),
         transition('current => next', animate(`${SLIDE_DURATION}s ${CONFETTI_DURATION}s`, keyframes([
-            style({transform: 'translateX(0)', offset: 0}),
-            style({transform: 'translateX(10%)', offset: 0.3}),
-            style({transform: 'translateX(-100%)', offset: 1})
+            style({opacity: 1, transform: 'translateX(0)', offset: 0}),
+            style({opacity: 1, transform: 'translateX(10%)', offset: 0.3}),
+            style({opacity: 0, transform: 'translateX(-100%)', offset: 1})
         ]))),
         transition('start-next => current', animate(`${SLIDE_DURATION}s`, slideFromRight)),
         transition('next => current', animate(500, slideFromRight)),
-        transition('* => end', animate(500, keyframes([])))
+        transition('* => end', animate(`${FINAL_SLIDE}s`, keyframes([
+            style({opacity: 0, transform: 'scale(0)'}),
+            style({opacity: 1, transform: 'scale(1.2)'}),
+            style({transform: 'scale(0.8)'}),
+            style({transform: 'scale(1.2)'}),
+            style({transform: 'scale(0.8)'}),
+            style({transform: 'scale(1.2)'}),
+            style({transform: 'scale(0.8)'}),
+            style({transform: 'scale(1.2)'}),
+            style({transform: 'scale(0.8)'}),
+            style({transform: 'scale(1.2)'}),
+            style({transform: 'scale(0.8)'}),
+            style({transform: 'scale(1.2)'}),
+            style({transform: 'scale(0)'}),
+        ]))),
+        transition('* => reward', animate(`${SLIDE_DURATION}s`, keyframes([
+            style({opacity: 0, transform: 'scale(0)'}),
+            style({opacity: 1, transform: 'scale(1.2)'}),
+            style({transform: 'scale(1)'})
+        ]))),
     ]),
     trigger('confetti', [
         state('*', style({display: 'none'})),
         transition('void => start', animate(`${CONFETTI_DURATION}s ${START_DURATION + START_DELAY}s`, confettiKeyframes)),
-        transition('current => next', animate(`${CONFETTI_DURATION}s`, confettiKeyframes))
+        transition('current => next', animate(`${CONFETTI_DURATION}s`, confettiKeyframes)),
+    ]),
+    trigger('fireworks', [
+        state('*', style({display: 'none'})),
+        transition('* => end', animate(`${FINAL_SLIDE}s`, fireworksKeyframes))
     ]),
     trigger('input', [
         transition('* => error', animate(300, keyframes([

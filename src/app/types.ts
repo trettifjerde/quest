@@ -1,7 +1,7 @@
 export type Task = {
     pic: string,
     task: string,
-    solution: string
+    solution: string[]
 }
 
-export type AppState = 'start' | 'start-next' | 'current' | 'next' | 'end';
+export type AppState = 'start' | 'start-next' | 'current' | 'next' | 'end' | 'reward';

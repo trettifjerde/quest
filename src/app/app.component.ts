@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppState, Task } from './types';
 import { animations } from 'src/animations';
 import { TASKS } from './data';
@@ -9,7 +9,7 @@ import { TASKS } from './data';
   styleUrls: ['./app.component.scss'],
   animations: [animations]
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   state : AppState = 'start';
   i: number;
   maxQ: number;
@@ -18,41 +18,42 @@ export class AppComponent {
   isError = false;
   victory = false;
 
+  ngOnInit(): void {
+    const n = localStorage.getItem('n');
+    if (n === 'complete') {
+      this.congratulate();
+    }
+    else if (n)
+      this.initTasks(+n);
+  }
+
   startQuest() {
     this.state = 'start-next';
   }
 
-  initTasks() {
-    this.i = 0;
-    this.task = TASKS[0];
+  initTasks(n: number) {
+    this.i = n;
+    this.task = TASKS[n];
     this.maxQ = TASKS.length;
     this.state = 'current';
   }
 
   checkAnswer() {
-    if (this.answer.trim().toLowerCase() === this.task.solution.toLowerCase()) {
-        this.setNextTask();
+    if (this.task.solution.some(v => v.toLowerCase() === this.answer.toLowerCase())) {
+        this.state = 'next';
     }
     else
         this.isError = true;
     }
 
-  setNextTask() {    
-  this.state = 'next';
-    if (this.i + 1 < this.maxQ) {
+    setNextTask() {
       this.i++;
       this.task = TASKS[this.i];
       this.isError = false;
       this.answer = '';
+      this.state = 'current';
+      localStorage.setItem('n', this.i.toString());
     }
-    else {
-      this.victory = true;
-    }
-  }
-
-  startNextTask() {
-    this.state = 'current';
-  }
 
   clearError() {
     this.isError = false;
@@ -62,17 +63,26 @@ export class AppComponent {
     this.state = 'end';
   }
 
+  giveReward() {
+    this.state = 'reward';
+  }
+
   onAnimationEnd() {
     switch(this.state) {
       case 'start-next':
-        this.initTasks();
+        this.initTasks(0);
+        localStorage.setItem('n', '0');
         break;
       case 'next':
-        if (this.victory)
+        if (this.i < this.maxQ - 1)
+          this.setNextTask();
+        else {
           this.congratulate();
-        else
-          this.startNextTask();
-          break;
+          localStorage.setItem('n', 'complete');
+        }
+        break;
+      case 'end':
+        this.giveReward();
     }
   }
 }
