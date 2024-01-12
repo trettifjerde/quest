@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppState, Task } from './types';
 import { animations } from 'src/animations';
-import { TASKS } from './data';
+import { TASKS, UI as str } from './data/en';
 
 const CAT = 'assets/cel_cat.jpg';
 const CAKE = 'assets/cake.jpg';
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit{
   answer = '';
   isError = false;
   victory = false;
+  str = str;
 
   ngOnInit(): void {
     const n = localStorage.getItem('n');

@@ -4,14 +4,14 @@
     <div class="fireworks" [@fireworks]="state"></div>
     <div class="content" [ngClass]="getClass()" [@taskState]="state" (@taskState.done)="onAnimationEnd()">
         <div *ngIf="state === 'preload'">
-            <button (click)="launch()">Начать</button>
+            <button (click)="launch()">{{ str.start }}</button>
         </div>
 
         <div *ngIf="state === 'start' || state === 'start-next'">
-            <h1>С днем рождения, Кисык!</h1>
+            <h1>{{ str.happyBirthday }}</h1>
             <h1>🎉🎉🎉</h1>
-            <p class="cont">Вы готовы начать свой праздничный квесцик?</p>
-            <button type="button" (click)="startQuest()">Погнали!</button>
+            <p class="cont">{{str.readyToBegin}}</p>
+            <button type="button" (click)="startQuest()">{{ str.letsGo }}</button>
         </div>
 
         <div *ngIf="state === 'current' || state === 'next'">
@@ -19,21 +19,21 @@
             <img [src]="task.pic" />
             <h2>{{task.task}}</h2>
             <form autocomplete="off" (submit)="checkAnswer()">
-                <p class="error-text">{{isError ? 'Ниц. Подумойте ещё :<' : ''}}</p>
-                <input type="text" placeholder="Ваш ответ" name="answer" [(ngModel)]="answer" required 
+                <p class="error-text">{{isError ? str.nope : ''}}</p>
+                <input type="text" [placeholder]="str.yourAnswer" name="answer" [(ngModel)]="answer" required 
                     [@input]="isError ? 'error' : ''" (focus)="clearError()" (input)="clearError()"/>
-                <button type="submit">Проверить</button>
+                <button type="submit">{{ str.submit }}</button>
             </form>
         </div>
 
         <div *ngIf="state === 'end'">
-            <h1>Поздравляем!</h1>
-            <p>Вы самый гениальный кисик на свете!</p>
+            <h1>{{str.congratulations}}</h1>
+            <p>{{ str.youSoSmart }}</p>
             <img src="assets/cel_cat.jpg" />
         </div>
         <div *ngIf="state === 'reward'">
-            <h1>Бегице гюшац!</h1>
-            <p>Ещё раз с днем рождения! 🍰🍰🍰</p>
+            <h1>{{str.enjoyYourCake}}</h1>
+            <p>{{ str.happyBirthdayAgain }} 🍰🍰🍰</p>
             <img src="assets/cake.jpg" />
         </div>
     </div>

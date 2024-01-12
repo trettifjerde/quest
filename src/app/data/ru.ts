@@ -1,3 +1,17 @@
+export const UI = {
+    start: 'Начать',
+    happyBirthday: 'С днем рождения, Кисык!',
+    readyToBegin: 'Вы готовы начать свой праздничный квесцик?',
+    letsGo: 'Погнали!',
+    nope: 'Ниц. Подумойте ещё :<',
+    yourAnswer: 'Ваш ответ',
+    submit: 'Проверить',
+    happyBirthdayAgain: 'Ещё раз с днем рождения!',
+    enjoyYourCake: 'Бегице гюшац!',
+    congratulations: 'Поздравляем!',
+    youSoSmart: 'Вы самый гениальный кисик на свете!'
+};
+
 export const TASKS = [
     {
         pic: "assets/01.jpg",
